@@ -1,96 +1,240 @@
-import  { useState } from 'react';
-import { FaBars, FaUser, FaTachometerAlt, FaList, FaTags, FaBox, FaChartBar, FaSignOutAlt, FaChevronDown, FaChartLine, FaWarehouse, FaClipboardList, FaUndoAlt, FaCashRegister, FaTruck } from 'react-icons/fa';
-import '../Css/sidenavbar.css';
 
-const SideNavbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openSubMenu, setOpenSubMenu] = useState(null);
+/* General styles */
+.app-container {
+  display: flex;
+}
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s;
+}
 
-  const toggleSubMenu = (menu) => {
-    setOpenSubMenu(openSubMenu === menu ? null : menu);
-  };
+.sidebar.collapsed {
+  width: 80px;
+}
 
-  return (
-    <div className="app-container">
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <div className={`brand-name ${isOpen ? '' : 'collapsed'}`}>BrandName</div>
-        <div className="menu-item">
-          <FaTachometerAlt className="icon" />
-          <span className="menu-text">Dashboard</span>
-        </div>
-        <div className={`menu-item has-submenu ${openSubMenu === 'category' ? 'open' : ''}`} onClick={() => toggleSubMenu('category')}>
-          <FaList className="icon" />
-          <span className="menu-text">Category</span>
-          <FaChevronDown className="submenu-icon" />
-        </div>
-        {openSubMenu === 'category' && (
-          <div className="submenu">
-            <div className="submenu-item">Borka</div>
-            <div className="submenu-item">Abaya</div>
-            <div className="submenu-item">Karchupi</div>
-          </div>
-        )}
-        <div className={`menu-item has-submenu ${openSubMenu === 'sale' ? 'open' : ''}`} onClick={() => toggleSubMenu('sale')}>
-          <FaTags className="icon" />
-          <span className="menu-text">Sale</span>
-          <FaChevronDown className="submenu-icon" />
-        </div>
-        {openSubMenu === 'sale' && (
-          <div className="submenu">
-            <div className="submenu-item">Complete</div>
-            <div className="submenu-item">Due</div>
-            <div className="submenu-item">Hold</div>
-            <div className="submenu-item">Return</div>
-          </div>
-        )}
-        <div className="menu-item">
-          <FaBox className="icon" />
-          <span className="menu-text">Products Category</span>
-        </div>
-        <div className="menu-item">
-          <FaTags className="icon" />
-          <span className="menu-text">Brands</span>
-        </div>
-        <div className="menu-item">
-          <FaBox className="icon" />
-          <span className="menu-text">Product List</span>
-        </div>
-        <div className="menu-item">
-          <FaChartBar className="icon" />
-          <span className="menu-text">Ecomarch Category</span>
-        </div>
-        <div className="menu-item logout">
-          <FaSignOutAlt className="icon" />
-          <span className="menu-text">Logout</span>
-        </div>
-      </div>
-      <div className="main-content">
-        <div className="top-navbar">
-          <FaBars className="icon toggle-icon" onClick={toggleSidebar} />
-          <div className="top-menu">
-            <button className="top-menu-item"><FaChartLine className="icon" /> Sale Report</button>
-            <button className="top-menu-item"><FaWarehouse className="icon" /> Stock</button>
-            <button className="top-menu-item"><FaClipboardList className="icon" /> Today Summary</button>
-            <button className="top-menu-item"><FaUndoAlt className="icon" /> Return Orders</button>
-            <button className="top-menu-item"><FaCashRegister className="icon" /> POS</button>
-            <button className="top-menu-item"><FaTruck className="icon" /> Wholesale</button>
-            <button className="top-menu-item"><FaBox className="icon" /> Order</button>
-          </div>
-          <div className="profile-menu">
-            <FaUser className="icon" />
-            <span>Profile</span>
-          </div>
-        </div>
-        <div className="content">
-          {/* Your content goes here */}
-        </div>
-      </div>
-    </div>
-  );
-};
+.brand-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 15px;
+  text-align: center;
+}
 
-export default SideNavbar;
+.brand-name.collapsed {
+  display: none;
+}
+
+.menu-item {
+  padding: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.menu-item .icon {
+  margin-right: 15px;
+}
+
+.menu-text {
+  display: inline-block;
+}
+
+.menu-item:hover {
+  background-color: #34495e;
+}
+
+.has-submenu {
+  position: relative;
+}
+
+.submenu {
+  display: none;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.submenu-item {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.submenu-item:hover {
+  background-color: #34495e;
+}
+
+.open .submenu {
+  display: flex;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 200px;
+    opacity: 1;
+  }
+}
+
+.logout {
+  margin-top: auto;
+  background-color: #e74c3c;
+}
+
+.logout:hover {
+  background-color: #c0392b;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #ecf0f1;
+  margin-top: 60px; /* Ensures main content is below the fixed top navbar */
+}
+
+.top-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.top-navbar .icon {
+  cursor: pointer;
+}
+
+.top-menu {
+  display: flex;
+  justify-content: center; /* Center the items */
+  flex-grow: 1;
+}
+
+.top-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #34495e;
+  border: none;
+  color: #ecf0f1;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.top-menu-item:hover {
+  background-color: #3b5998;
+}
+
+.profile-menu {
+  display: flex;
+  align-items: center;
+}
+
+.profile-menu .icon {
+  margin-right: 10px;
+}
+
+.tooltip-navbar {
+  display: none;
+}
+
+.tooltip-navbar.open {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  top: 60px;
+  background-color: #2c3e50;
+  width: 200px;
+  z-index: 1000;
+  padding: 10px;
+}
+
+.tooltip-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  color: #ecf0f1;
+}
+
+.tooltip-menu-item:hover {
+  background-color: #34495e;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    left: -250px;
+    height: calc(100vh - 60px);
+    z-index: 1000;
+    transition: left 0.3s;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .main-content {
+    margin-top: 0; /* Ensure content is not pushed down on mobile */
+  }
+
+  .top-navbar {
+    justify-content: space-between;
+  }
+
+  .top-menu {
+    display: none;
+  }
+
+  .top-navbar .icon.toggle-icon {
+    display: block;
+  }
+
+  .top-navbar .icon.right-icon {
+    display: block;
+  }
+
+  .tooltip-navbar {
+    display: none;
+  }
+
+  .tooltip-navbar.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    right: 0;
+    top: 60px;
+    background-color: #2c3e50;
+    width: 200px;
+    z-index: 1000;
+    padding: 10px;
+  }
+
+  .tooltip-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    color: #ecf0f1;
+  }
+
+  .tooltip-menu-item:hover {
+    background-color: #34495e;
+  }
+}
